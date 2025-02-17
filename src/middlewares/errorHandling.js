@@ -7,4 +7,4 @@ const errorHandling = (error, req, res, next) => {
   });
 };
 
-export default errorHandling;gi
+export default errorHandling;

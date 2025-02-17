@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import pool from "./config/db.js";
 import createUserTable from "./data/createUserTable.js";
+import errorHandling from "./middlewares/errorHandling.js";
 
 dotenv.config();
 
@@ -11,6 +12,9 @@ const app = express();
 //Middlewares
 app.use(express.json());
 app.use(cors());
+
+//Error Handling middleware
+app.use(errorHandling);
 
 createUserTable();
 
