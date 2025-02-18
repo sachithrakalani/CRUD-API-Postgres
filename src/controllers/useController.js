@@ -1,4 +1,8 @@
-import { createUserService, getAllUsersService } from "../models/userModel.js";
+import {
+  createUserService,
+  getAllUsersService,
+  getUserByIdService,
+} from "../models/userModel.js";
 
 const handleResponse = (res, status, message, data = null) => {
   res.status(status).json({
@@ -22,6 +26,16 @@ export const getAllUsers = async (req, res, next) => {
   try {
     const user = await getAllUsersService();
     handleResponse(res, 200, "User featched Successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserById = async (req, res, next) => {
+  try {
+    const user = getUserByIdService(req.params.id);
+    if (!user) return handleResponse(res, 404, "User Not Found");
+    handleResponse(res, 200, "User featched Successfully", user);
   } catch (error) {
     next(error);
   }
