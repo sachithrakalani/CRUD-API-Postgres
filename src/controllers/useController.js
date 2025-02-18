@@ -2,6 +2,7 @@ import {
   createUserService,
   getAllUsersService,
   getUserByIdService,
+  updateUserService,
 } from "../models/userModel.js";
 
 const handleResponse = (res, status, message, data = null) => {
@@ -36,6 +37,17 @@ export const getUserById = async (req, res, next) => {
     const user = getUserByIdService(req.params.id);
     if (!user) return handleResponse(res, 404, "User Not Found");
     handleResponse(res, 200, "User featched Successfully", user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUser = async (req, res, next) => {
+  const { name, email } = req.body;
+  try {
+    const updateUser = updateUserService(req.params.id, name, email);
+    if (!updateUser) return handleResponse(res, 404, "User not Found");
+    handleResponse(res, 200, "User Update Successfully");
   } catch (error) {
     next(error);
   }
