@@ -1,5 +1,6 @@
 import {
   createUserService,
+  deleteUserService,
   getAllUsersService,
   getUserByIdService,
   updateUserService,
@@ -34,7 +35,7 @@ export const getAllUsers = async (req, res, next) => {
 
 export const getUserById = async (req, res, next) => {
   try {
-    const user = getUserByIdService(req.params.id);
+    const user = await getUserByIdService(req.params.id);
     if (!user) return handleResponse(res, 404, "User Not Found");
     handleResponse(res, 200, "User featched Successfully", user);
   } catch (error) {
@@ -45,9 +46,19 @@ export const getUserById = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   const { name, email } = req.body;
   try {
-    const updateUser = updateUserService(req.params.id, name, email);
+    const updateUser = await updateUserService(req.params.id, name, email);
     if (!updateUser) return handleResponse(res, 404, "User not Found");
     handleResponse(res, 200, "User Update Successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteuser = async (req, res, next) => {
+  try {
+    const deleteUser = await deleteUserService(req.params.id);
+    if (!deleteUser) return handleResponse(res, 404, "User not Found");
+    handleResponse(res, 200, "User Delete Successfully");
   } catch (error) {
     next(error);
   }
